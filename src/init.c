@@ -2,10 +2,10 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
-extern SEXP traceExpression(SEXP expression, SEXP output, SEXP  containerName, SEXP baseImage);
+extern SEXP traceExpression(SEXP expression, SEXP output, SEXP baseImage, SEXP imageTag, SEXP containerName);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"traceExpression", (DL_FUNC) &traceExpression, 4},
+  {"traceExpression", (DL_FUNC) &traceExpression, 5},
   {NULL, NULL, 0}
 };
 

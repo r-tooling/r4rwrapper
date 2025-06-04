@@ -22,14 +22,16 @@ std::string sexpToNonEmptyStringOrFail(SEXP str_sexp, std::string argName) {
 }
 
 
-extern "C" SEXP traceExpression(SEXP expression, SEXP output, SEXP  containerName, SEXP baseImage) {
+extern "C"  SEXP traceExpression(SEXP expression, SEXP output, SEXP baseImage, SEXP imageTag, SEXP containerName) {
 
     auto expressionAsString = sexpToNonEmptyStringOrFail(expression, "expression");
     auto outputAsString = sexpToNonEmptyStringOrFail(output, "output");
-    auto containerNameAsString = sexpToNonEmptyStringOrFail(containerName, "container name");
     auto baseImageAsString = sexpToNonEmptyStringOrFail(baseImage, "base image");
+    auto imageTagAsString = sexpToNonEmptyStringOrFail(imageTag, "image tag");
+    auto containerNameAsString = sexpToNonEmptyStringOrFail(containerName, "container name");
+    
 
-    auto ret = r4r_trace_expression(expressionAsString, outputAsString, containerNameAsString, baseImageAsString);
+    auto ret = r4r_trace_expression(expressionAsString, outputAsString, baseImageAsString, imageTagAsString, containerNameAsString);
 
     return ScalarInteger(ret);
 
