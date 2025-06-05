@@ -1,7 +1,7 @@
 IMAGE_TAG := libr4r/test-$(NAME)
 CONTAINER_NAME := libr4r-test-$(NAME)
 OUTPUT := actual
-TRACE_COMMAND := R -e "library(r4rwrapper); $(TRACE_FUNCTION)('$(FILE)','$(OUTPUT)',,'$(IMAGE_TAG)', '$(CONTAINER_NAME)') "
+TRACE_COMMAND := R -e "library(r4rwrapper); $(TRACE_FUNCTION)('$(FILE)','$(OUTPUT)','$(IMAGE_TAG)', '$(CONTAINER_NAME)') "
 NCPUS ?= 8
 
 
