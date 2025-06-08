@@ -14,50 +14,50 @@ run_my_code <- function() {
 
   
 
-  rstudioapi::showDialog("R4R", "You pressed the button!")
-  
-
   # Get the contents of the active document
   doc <- rstudioapi::getActiveDocumentContext()
-
-
-  # Print it or do something else
-  print(contents)
-
 
   if (doc$path == "") {
     rstudioapi::showDialog(ADDIN_NAME, "Save file before running")
     return()
   }
 
+  if (!is_full_file_path_with_extension(doc$path, ".Rmd")) {
+    rstudioapi::showDialog(ADDIN_NAME, "File is not .Rmd")
+    return()  
+  }
 
   
+  response <- rstudioapi::showQuestion(
+    title = "Start tracing?",
+    message = "Do you want to start the tracing?",
+    ok = "Yes",
+    cancel = "No"
+  )
+
+  if (!isTRUE(response))
+    return()
+
   # Save the current document
   rstudioapi::documentSave(id = doc$id)
 
-  output <- dirname(doc$path)
-
+  output <- paste0(dirname(doc$path), "/actual")
   name <- "helloworldplugin"
-  r4r_traceRmd(doc$path, output, paste0("r4r/", name) , paste0("r4r-", name ))
+  image_tag <- paste0("r4r/", name)
+  container_name <- paste0("r4r-", name )
 
-  rstudioapi::showDialog(ADDIN_NAME, "Done!")
+  print(doc$path)
+  print(output)
+  print(image_tag)
+  print(container_name)
 
+  
+  res <- r4r_traceRmd(doc$path, output, image_tag , container_name)
 
-
-#   list(
-#   id = "#5",                  # internal doc ID
-#   path = "/path/to/script.R",# file path ("" if unsaved)
-#   contents = c("line 1", "line 2", ...), # lines of the file
-#   selection = list(...)      # selected text, etc.
-# )
-# You can join it into a full string if needed:
-
-# r
-# Copy
-# Edit
-# code <- paste(doc$contents, collapse = "\n")
-
-#### ---------------
+  if (res == 0)
+    rstudioapi::showDialog(ADDIN_NAME, paste0("Done! Container: ", container_name))
+  else
+    rstudioapi::showDialog(ADDIN_NAME, "Tracing finished with errors")
 
 
 
