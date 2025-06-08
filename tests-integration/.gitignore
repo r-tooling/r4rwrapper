@@ -1,2 +1,3 @@
 .Rhistory
-actual
+**/actual/
+!**/expected/
