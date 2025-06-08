@@ -17,9 +17,15 @@ cd ~/r4rwrapper
 sudo R -e "remove.packages('r4rwrapper')" || true
 sudo R -e "devtools::install()"
 
-cd tests-integration
-cd ${FOLDER}
-make
+# cd tests-integration
+# cd ${FOLDER}
+# make
+
+cd ~/rmarkdownhelloworld/
+#R -e "rmarkdown::render('helloworld.Rmd')" 
+R -e "library(r4rwrapper); r4r_traceRmd('helloworld.Rmd' , 'output' , 'r4rhellow' , 'r4rhellow' )" 
 
 
+#setwd('/home/sebak/rmarkdownhelloworld')
+# r4r_traceRmd('helloworld.Rmd', 'actual', 'hellow', 'hellow' )
  

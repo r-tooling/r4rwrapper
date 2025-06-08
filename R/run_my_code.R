@@ -51,6 +51,7 @@ run_my_code <- function() {
   print(image_tag)
   print(container_name)
 
+  # TODO prompt image name  ,promt run container
   
   res <- r4r_traceRmd(doc$path, output, image_tag , container_name)
 
