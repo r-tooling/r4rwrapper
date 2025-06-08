@@ -4,23 +4,45 @@
 #'
 #' @export
 run_my_code <- function() {
-  rstudioapi::showDialog("My Addin", "You pressed the button!")
-  print("Hello from the addin!")
+
+  ADDIN_NAME = "R4R"
+
+   # Ensure RStudio API is available
+  if (!rstudioapi::isAvailable()) {
+    stop("This function requires RStudio.")
+  }
+
+  
+
+  rstudioapi::showDialog("R4R", "You pressed the button!")
+  
+
+  # Get the contents of the active document
+  doc <- rstudioapi::getActiveDocumentContext()
 
 
-#  # Make sure we're in an RStudio session
-#   if (!rstudioapi::isAvailable()) {
-#     stop("This function requires RStudio.")
-#   }
+  # Print it or do something else
+  print(contents)
 
-#   # Get the contents of the active document
-#   doc <- rstudioapi::getActiveDocumentContext()
 
-#   # Access the text as a character vector (one element per line)
-#   contents <- doc$contents
+  if (doc$path == "") {
+    rstudioapi::showDialog(ADDIN_NAME, "Save file before running")
+    return()
+  }
 
-#   # Print it or do something else
-#   print(contents)
+
+  
+  # Save the current document
+  rstudioapi::documentSave(id = doc$id)
+
+  output <- dirname(doc$path)
+
+  name <- "helloworldplugin"
+  r4r_traceRmd(doc$path, output, paste0("r4r/", name) , paste0("r4r-", name ))
+
+  rstudioapi::showDialog(ADDIN_NAME, "Done!")
+
+
 
 #   list(
 #   id = "#5",                  # internal doc ID
@@ -37,18 +59,7 @@ run_my_code <- function() {
 
 #### ---------------
 
-#  # Ensure RStudio API is available
-#   if (!rstudioapi::isAvailable()) {
-#     stop("This function requires RStudio.")
-#   }
 
-#   # Get active document context
-#   doc <- rstudioapi::getActiveDocumentContext()
-  
-#   # Save the current document
-#   rstudioapi::documentSave(id = doc$id)
 
-#   # Feedback
-#   rstudioapi::showDialog("Saved", paste("File saved:", doc$path))
 
 }
