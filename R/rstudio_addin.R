@@ -3,7 +3,7 @@
 #' This function is triggered by the RStudio Addin.
 #'
 #' @export
-run_my_code <- function() {
+trace_current_Rmd <- function() {
 
   ADDIN_NAME = "R4R"
 
