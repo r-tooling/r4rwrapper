@@ -41,18 +41,16 @@ trace_current_Rmd <- function() {
   # Save the current document
   rstudioapi::documentSave(id = doc$id)
 
+
+  filename <- basename(doc$path)              
+  filename_no_ext <- tools::file_path_sans_ext(filename)
+
   output <- paste0(dirname(doc$path), "/actual")
-  name <- "helloworldplugin"
+
+  name <- make_docker_image_safe(filename_no_ext)
   image_tag <- paste0("r4r/", name)
   container_name <- paste0("r4r-", name )
 
-  print(doc$path)
-  print(output)
-  print(image_tag)
-  print(container_name)
-
-  # TODO prompt image name  ,promt run container
-  
   res <- r4r_traceRmd(doc$path, output, image_tag , container_name)
 
   if (res == 0)
@@ -60,7 +58,20 @@ trace_current_Rmd <- function() {
   else
     rstudioapi::showDialog(ADDIN_NAME, "Tracing finished with errors")
 
+}
 
-
-
+make_docker_image_safe <- function(name) {
+  # Convert to lowercase
+  name <- tolower(name)
+  
+  # Replace disallowed characters with dashes
+  name <- gsub("[^a-z0-9._-]", "-", name)
+  
+  # Remove leading invalid characters (like dash or dot)
+  name <- gsub("^[^a-z0-9]+", "", name)
+  
+  # Trim trailing dashes or dots (optional)
+  name <- gsub("[-.]+$", "", name)
+  
+  return(name)
 }
