@@ -2,7 +2,7 @@
 #' @export
 
 DEFAULT_BASE_IMAGE="ubuntu:24.04"
-r4r_traceRFile <- function(file, output, image_tag, container_name, base_image="") {
+r4r_traceRFile <- function(file, output, image_tag, container_name, base_image="", skip_manifest=TRUE) {
   
     if (!is_full_file_path_with_extension(file ,".R")) {
          stop(".R file not provided");
@@ -10,19 +10,19 @@ r4r_traceRFile <- function(file, output, image_tag, container_name, base_image="
 
 
     expr <- paste0("source('", file,  "')")
-    .Call("traceExpression",  expr, output, image_tag, container_name, base_image )
+    .Call("traceExpression",  expr, output, image_tag, container_name, base_image , skip_manifest)
   
 }
 
 #' @export
-r4r_traceRmd <- function(rmdFile, output, image_tag, container_name, base_image="") {
+r4r_traceRmd <- function(rmdFile, output, image_tag, container_name, base_image="", skip_manifest=TRUE) {
     
     if (!is_full_file_path_with_extension(rmdFile ,".Rmd")) {
          stop(".Rmd file not provided");
     }
 
     expr <- paste0("rmarkdown::render('", rmdFile,  "')")
-    .Call("traceExpression", expr, output, image_tag, container_name, base_image)
+    .Call("traceExpression", expr, output, image_tag, container_name, base_image, skip_manifest)
   
 }
 

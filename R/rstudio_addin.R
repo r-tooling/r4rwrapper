@@ -51,13 +51,19 @@ trace_current_Rmd <- function() {
   image_tag <- paste0("r4r/", name)
   container_name <- paste0("r4r-", name )
 
-  res <- r4r_traceRmd(doc$path, output, image_tag , container_name)
 
-  if (res == 0)
-    rstudioapi::showDialog(ADDIN_NAME, paste0("Done! Container: ", container_name))
-  else
+  if (Sys.getenv("VISUAL") =="" )
+    Sys.setenv(VISUAL = "gnome-text-editor")
+  res <- r4r_traceRmd(doc$path, output, image_tag , container_name, skip_manifest=FALSE)
+
+  if (res != 0) { 
     rstudioapi::showDialog(ADDIN_NAME, "Tracing finished with errors")
-
+    return();
+  }
+  
+  rstudioapi::showDialog(ADDIN_NAME, paste0("Done! Container: ", container_name))
+ 
+  
 }
 
 make_docker_image_safe <- function(name) {
