@@ -1,7 +1,7 @@
 
 #' @export
 
-DEFAULT_BASE_IMAGE="ubuntu:24.04"
+
 r4r_traceRFile <- function(file, output, image_tag, container_name, base_image="", skip_manifest=TRUE) {
   
     if (!is_full_file_path_with_extension(file ,".R")) {
